@@ -1,4 +1,4 @@
 <template>
   <AppBreadcrumbs />
-  <SectionBlogList />
+  <SectionBlog />
 </template>
