@@ -1,0 +1,4 @@
+<template>
+  <AppBreadcrumbs />
+  <SectionBlogList />
+</template>
