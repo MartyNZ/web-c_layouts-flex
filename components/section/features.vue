@@ -60,7 +60,7 @@
       <!-- / row -->
 
       <!-- Feature Tabs -->
-      <div class="row feture-tabs" data-aos="fade-up">
+      <div class="row feature-tabs" data-aos="fade-up">
         <div class="col-lg-6">
           <h3>
             Neque officiis dolore maiores et exercitationem quae est seda lidera
