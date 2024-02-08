@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // devtools: { enabled: true },
+  modules: ["@nuxtjs/sanity"],
   css: ["bootstrap/scss/bootstrap.scss"],
   app: {
     head: {
@@ -13,12 +14,12 @@ export default defineNuxtConfig({
       ],
       script: [
         {
-          src: "https://kit.fontawesome.com/10ce22d6ee.js",
+          src: "https://kit.fontawesome.com/0f286115aa.js",
           crossorigin: "anonymous",
         },
         {
           type: "text/javascript",
-          hid: "swiper",
+          hid: "purecounter",
           body: true,
           src: "/assets/vendor/purecounter/purecounter_vanilla.js",
         },
@@ -68,10 +69,10 @@ export default defineNuxtConfig({
           rel: "stylesheet",
           href: "/assets/vendor/aos/aos.css",
         },
-        {
-          rel: "stylesheet",
-          href: "/assets/vendor/bootstrap-icons/bootstrap-icons.css",
-        },
+        // {
+        //   rel: "stylesheet",
+        //   href: "/assets/vendor/bootstrap-icons/bootstrap-icons.css",
+        // },
         {
           rel: "stylesheet",
           href: "/assets/vendor/glightbox/css/glightbox.min.css",
@@ -91,4 +92,5 @@ export default defineNuxtConfig({
       ],
     },
   },
+  sanity: { projectId: "c6g685a6", dataset: "production" },
 });

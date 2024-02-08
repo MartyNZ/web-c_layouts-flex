@@ -1,63 +1,35 @@
+<script setup>
+const qryCounters = groq`
+  *[_type == 'counters' ][0]{
+    'slug':slug.current,
+    title,
+    counters
+  }
+`;
+const { data: counts } = useSanityQuery(qryCounters);
+</script>
 <template>
   <section id="counts" class="counts">
     <div class="container" data-aos="fade-up">
       <div class="row gy-4">
-        <div class="col-lg-3 col-md-6">
+        <div
+          class="col-lg-3 col-md-6"
+          v-for="count in counts.counters"
+          :key="count._key"
+        >
           <div class="count-box">
-            <i class="bi bi-emoji-smile"></i>
+            <i
+              :class="`${count.icon.provider} ${count.icon.name}`"
+              style="height: 4em; padding-end: 1em; color: blue"
+            ></i>
             <div>
               <span
                 data-purecounter-start="0"
-                data-purecounter-end="232"
+                :data-purecounter-end="count.count"
                 data-purecounter-duration="1"
                 class="purecounter"
               ></span>
-              <p>Happy Clients</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-          <div class="count-box">
-            <i class="bi bi-journal-richtext" style="color: #ee6c20"></i>
-            <div>
-              <span
-                data-purecounter-start="0"
-                data-purecounter-end="521"
-                data-purecounter-duration="1"
-                class="purecounter"
-              ></span>
-              <p>Projects</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-          <div class="count-box">
-            <i class="bi bi-headset" style="color: #15be56"></i>
-            <div>
-              <span
-                data-purecounter-start="0"
-                data-purecounter-end="1463"
-                data-purecounter-duration="1"
-                class="purecounter"
-              ></span>
-              <p>Hours Of Support</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-          <div class="count-box">
-            <i class="bi bi-people" style="color: #bb0852"></i>
-            <div>
-              <span
-                data-purecounter-start="0"
-                data-purecounter-end="15"
-                data-purecounter-duration="1"
-                class="purecounter"
-              ></span>
-              <p>Hard Workers</p>
+              <p>{{ count.title }}</p>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 <template>
   <SectionAbout />
   <SectionValues />
-  <SectionCounts />
+  <!-- <SectionCounts /> -->
   <SectionFeatures />
   <SectionServices />
   <SectionPricing />

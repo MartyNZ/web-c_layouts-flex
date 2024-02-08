@@ -1,5 +1,14 @@
+<script setup>
+const bgImage = "assets/img/hero-bg.png";
+</script>
+
 <template>
-  <section id="hero" class="hero d-flex align-items-center">
+  <section
+    id="hero"
+    class="hero d-flex align-items-center"
+    style="`background-image: "
+    url(${bgImage})`
+  >
     <div class="container">
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">

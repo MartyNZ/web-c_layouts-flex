@@ -1,3 +1,33 @@
+<script setup>
+const query = groq`
+*[_type=='settings'][0]{
+  title,
+  _id,
+  description,
+  siteOwner,
+  primaryLocation->{
+    email,
+    address,
+    address2,
+    city,
+    state,
+    postcode,
+    country,
+    openHours,
+    socialConnections[]{
+      _type,
+      url,
+      username,
+      title
+    },
+    phoneNumbers[]{
+      label,
+      number
+    }
+  }
+}`;
+const { data: settings } = useSanityQuery(query);
+</script>
 <template>
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
@@ -13,28 +43,38 @@
               <div class="info-box">
                 <i class="bi bi-geo-alt"></i>
                 <h3>Address</h3>
-                <p>A108 Adam Street,<br />New York, NY 535022</p>
+                <p>
+                  {{ settings.primaryLocation.address }},<br />{{
+                    settings.primaryLocation.city
+                  }}, {{ settings.primaryLocation.state }}
+                  {{ settings.primaryLocation.postcode }}
+                </p>
               </div>
             </div>
             <div class="col-md-6">
               <div class="info-box">
                 <i class="bi bi-telephone"></i>
                 <h3>Call Us</h3>
-                <p>+1 5589 55488 55<br />+1 6678 254445 41</p>
+                <p>
+                  <template
+                    v-for="number in settings.primaryLocation.phoneNumbers"
+                    >{{ number.label }}<br
+                  /></template>
+                </p>
               </div>
             </div>
             <div class="col-md-6">
               <div class="info-box">
                 <i class="bi bi-envelope"></i>
                 <h3>Email Us</h3>
-                <p>info@example.com<br />contact@example.com</p>
+                <p>{{ settings.primaryLocation.email }}</p>
               </div>
             </div>
             <div class="col-md-6">
               <div class="info-box">
                 <i class="bi bi-clock"></i>
                 <h3>Open Hours</h3>
-                <p>Monday - Friday<br />9:00AM - 05:00PM</p>
+                <SanityContent :blocks="settings.primaryLocation.openHours" />
               </div>
             </div>
           </div>

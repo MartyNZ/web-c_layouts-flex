@@ -1,3 +1,15 @@
+<script setup>
+const qryAbout = groq`
+  *[_type == 'about' ][0]{
+    'slug':slug.current,
+    'img':image.asset._ref,
+    body,
+    headline,
+    title,
+    cta
+  }`;
+const { data: about } = useSanityQuery(qryAbout);
+</script>
 <template>
   <section id="about" class="about">
     <div class="container" data-aos="fade-up">
@@ -8,16 +20,11 @@
           data-aos-delay="200"
         >
           <div class="content">
-            <h3>Who We Are</h3>
+            <h3>{{ about.title }}</h3>
             <h2>
-              Expedita voluptas omnis cupiditate totam eveniet nobis sint iste.
-              Dolores est repellat corrupti reprehenderit.
+              {{ about.headline }}
             </h2>
-            <p>
-              Quisquam vel ut sint cum eos hic dolores aperiam. Sed deserunt et.
-              Inventore et et dolor consequatur itaque ut voluptate sed et.
-              Magnam nam ipsum tenetur suscipit voluptatum nam et est corrupti.
-            </p>
+            <SanityContent :blocks="about.body" />
             <div class="text-center text-lg-start">
               <a
                 href="#"
@@ -35,7 +42,7 @@
           data-aos="zoom-out"
           data-aos-delay="200"
         >
-          <img src="assets/img/about.jpg" class="img-fluid" alt="" />
+          <SanityImage :asset-id="about.img" auto="format" class="img-fluid" />
         </div>
       </div>
     </div>

@@ -1,57 +1,56 @@
+<script setup>
+const qryFeatures = groq`
+  *[_type=='features'][0]{
+    title,
+    headline,
+    'slug':slug.current,
+    simpleList{
+      isActive,
+      'imgId':image.asset->_id,
+      simpleList
+    },
+  tabbedList{
+    isActive,
+  'imgId':image.asset->_id,
+    tabbedListTitle,
+    tabbedList[]{
+      _key,
+      tabTitle,
+      body,
+    }
+  }
+  }`;
+const { data: features } = useSanityQuery(qryFeatures);
+</script>
 <template>
   <section id="features" class="features">
     <div class="container" data-aos="fade-up">
       <header class="section-header">
-        <h2>Features</h2>
-        <p>Laboriosam et omnis fuga quis dolor direda fara</p>
+        <h2>{{ features.title }}</h2>
+        <p>{{ features.headline }}</p>
       </header>
-
-      <div class="row">
+      <div class="row" v-if="features.simpleList.isActive">
         <div class="col-lg-6">
-          <img src="assets/img/features.png" class="img-fluid" alt="" />
+          <SanityImage
+            :asset-id="features.simpleList.imgId"
+            auto="format"
+            class="img-fluid"
+            :alt="features.title"
+          />
         </div>
 
         <div class="col-lg-6 mt-5 mt-lg-0 d-flex">
           <div class="row align-self-center gy-4">
-            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="200">
+            <div
+              class="col-md-6"
+              data-aos="zoom-out"
+              data-aos-delay="200"
+              v-for="(item, index) in features.simpleList.simpleList"
+              :key="index"
+            >
               <div class="feature-box d-flex align-items-center">
                 <i class="bi bi-check"></i>
-                <h3>Eos aspernatur rem</h3>
-              </div>
-            </div>
-
-            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="300">
-              <div class="feature-box d-flex align-items-center">
-                <i class="bi bi-check"></i>
-                <h3>Facilis neque ipsa</h3>
-              </div>
-            </div>
-
-            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="400">
-              <div class="feature-box d-flex align-items-center">
-                <i class="bi bi-check"></i>
-                <h3>Volup amet voluptas</h3>
-              </div>
-            </div>
-
-            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="500">
-              <div class="feature-box d-flex align-items-center">
-                <i class="bi bi-check"></i>
-                <h3>Rerum omnis sint</h3>
-              </div>
-            </div>
-
-            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="600">
-              <div class="feature-box d-flex align-items-center">
-                <i class="bi bi-check"></i>
-                <h3>Alias possimus</h3>
-              </div>
-            </div>
-
-            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="700">
-              <div class="feature-box d-flex align-items-center">
-                <i class="bi bi-check"></i>
-                <h3>Repellendus mollitia</h3>
+                <h3>{{ item }}</h3>
               </div>
             </div>
           </div>
@@ -60,28 +59,28 @@
       <!-- / row -->
 
       <!-- Feature Tabs -->
-      <div class="row feature-tabs" data-aos="fade-up">
+      <div
+        class="row feature-tabs"
+        data-aos="fade-up"
+        v-if="!features.tabbedList.isActive"
+      >
         <div class="col-lg-6">
           <h3>
-            Neque officiis dolore maiores et exercitationem quae est seda lidera
-            pat claero
+            {{ features.tabbedList.tabbedListTitle }}
           </h3>
 
           <!-- Tabs -->
           <ul class="nav nav-pills mb-3">
-            <li>
-              <a class="nav-link active" data-bs-toggle="pill" href="#tab1"
-                >Saepe fuga</a
-              >
-            </li>
-            <li>
-              <a class="nav-link" data-bs-toggle="pill" href="#tab2"
-                >Voluptates</a
-              >
-            </li>
-            <li>
-              <a class="nav-link" data-bs-toggle="pill" href="#tab3"
-                >Corrupti</a
+            <li
+              v-for="(item, index) in features.tabbedList.tabbedList"
+              :key="item._key"
+            >
+              <a
+                :class="index === 0 ? 'active' : ''"
+                class="nav-link"
+                data-bs-toggle="pill"
+                :href="`#${item._key}`"
+                >{{ item.tabTitle }}</a
               >
             </li>
           </ul>
@@ -89,94 +88,24 @@
 
           <!-- Tab Content -->
           <div class="tab-content">
-            <div class="tab-pane fade show active" id="tab1">
-              <p>
-                Consequuntur inventore voluptates consequatur aut vel et. Eos
-                doloribus expedita. Sapiente atque consequatur minima nihil quae
-                aspernatur quo suscipit voluptatem.
-              </p>
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-check2"></i>
-                <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
-              </div>
-              <p>
-                Laborum omnis voluptates voluptas qui sit aliquam blanditiis.
-                Sapiente minima commodi dolorum non eveniet magni quaerat nemo
-                et.
-              </p>
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-check2"></i>
-                <h4>Incidunt non veritatis illum ea ut nisi</h4>
-              </div>
-              <p>
-                Non quod totam minus repellendus autem sint velit. Rerum debitis
-                facere soluta tenetur. Iure molestiae assumenda sunt qui
-                inventore eligendi voluptates nisi at. Dolorem quo tempora. Quia
-                et perferendis.
-              </p>
+            <div
+              class="tab-pane fade show active"
+              :id="item._key"
+              v-for="item in features.tabbedList.tabbedList"
+              :key="item._key"
+            >
+              <SanityContent :blocks="item.body" />
             </div>
-            <!-- End Tab 1 Content -->
-
-            <div class="tab-pane fade show" id="tab2">
-              <p>
-                Consequuntur inventore voluptates consequatur aut vel et. Eos
-                doloribus expedita. Sapiente atque consequatur minima nihil quae
-                aspernatur quo suscipit voluptatem.
-              </p>
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-check2"></i>
-                <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
-              </div>
-              <p>
-                Laborum omnis voluptates voluptas qui sit aliquam blanditiis.
-                Sapiente minima commodi dolorum non eveniet magni quaerat nemo
-                et.
-              </p>
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-check2"></i>
-                <h4>Incidunt non veritatis illum ea ut nisi</h4>
-              </div>
-              <p>
-                Non quod totam minus repellendus autem sint velit. Rerum debitis
-                facere soluta tenetur. Iure molestiae assumenda sunt qui
-                inventore eligendi voluptates nisi at. Dolorem quo tempora. Quia
-                et perferendis.
-              </p>
-            </div>
-            <!-- End Tab 2 Content -->
-
-            <div class="tab-pane fade show" id="tab3">
-              <p>
-                Consequuntur inventore voluptates consequatur aut vel et. Eos
-                doloribus expedita. Sapiente atque consequatur minima nihil quae
-                aspernatur quo suscipit voluptatem.
-              </p>
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-check2"></i>
-                <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
-              </div>
-              <p>
-                Laborum omnis voluptates voluptas qui sit aliquam blanditiis.
-                Sapiente minima commodi dolorum non eveniet magni quaerat nemo
-                et.
-              </p>
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-check2"></i>
-                <h4>Incidunt non veritatis illum ea ut nisi</h4>
-              </div>
-              <p>
-                Non quod totam minus repellendus autem sint velit. Rerum debitis
-                facere soluta tenetur. Iure molestiae assumenda sunt qui
-                inventore eligendi voluptates nisi at. Dolorem quo tempora. Quia
-                et perferendis.
-              </p>
-            </div>
-            <!-- End Tab 3 Content -->
           </div>
         </div>
 
         <div class="col-lg-6">
-          <img src="assets/img/features-2.png" class="img-fluid" alt="" />
+          <SanityImage
+            :asset-id="features.tabbedList.imgId"
+            auto="format"
+            class="img-fluid"
+            :alt="features.tabbedList.tabbedListTitle"
+          />
         </div>
       </div>
       <!-- End Feature Tabs -->
