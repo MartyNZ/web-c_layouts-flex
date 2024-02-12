@@ -6,9 +6,9 @@
   <SectionServices />
   <SectionPricing />
   <SectionFaq />
-  <SectionPortfolio /> -->
-  <!-- <SectionTestimonials /> -->
-  <SectionTeam />
+  <SectionPortfolio />
+  <SectionTeam /> -->
+  <SectionTestimonials />
   <SectionClients />
   <SectionRecentBlogPosts />
   <SectionContact />

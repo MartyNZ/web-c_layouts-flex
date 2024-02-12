@@ -92,5 +92,9 @@ export default defineNuxtConfig({
       ],
     },
   },
-  sanity: { projectId: "c6g685a6", dataset: "production" },
+  sanity: {
+    projectId: "c6g685a6",
+    dataset: "production",
+    apiVersion: "2024-02-07",
+  },
 });
