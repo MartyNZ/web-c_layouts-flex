@@ -19,7 +19,7 @@ const { data: counts } = useSanityQuery(qryCounters);
         >
           <div class="count-box">
             <i
-              :class="`${count.icon.provider} ${count.icon.name}`"
+              :class="`${count.icon.provider}-${count.icon.style} ${count.icon.name}`"
               style="height: 4em; padding-end: 1em; color: blue"
             ></i>
             <div>

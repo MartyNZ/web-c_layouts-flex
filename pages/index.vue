@@ -1,13 +1,13 @@
 <template>
-  <SectionAbout />
+  <!-- <SectionAbout />
   <SectionValues />
-  <!-- <SectionCounts /> -->
+  <SectionCounts />
   <SectionFeatures />
   <SectionServices />
   <SectionPricing />
   <SectionFaq />
-  <SectionPortfolio />
-  <SectionTestimonials />
+  <SectionPortfolio /> -->
+  <!-- <SectionTestimonials /> -->
   <SectionTeam />
   <SectionClients />
   <SectionRecentBlogPosts />

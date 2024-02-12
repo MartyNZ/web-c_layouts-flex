@@ -1,18 +1,56 @@
+<script setup>
+const qryPortfolio = groq`
+*[_type == "portfolio"][0]{
+    title,
+    headline,
+    items[]->{
+      _id,
+      'slug':slug.current,
+      title,
+      client,
+      projectUrl,
+      images,
+      'firstImageId':images[0].asset->_id,
+      'firstImageUrl':images[0].asset->url,
+      category->{
+        title,
+        'slug':slug.current
+      },
+      body,
+    }
+  }
+`;
+const { data: portfolio } = useSanityQuery(qryPortfolio);
+
+const qryCategories = groq`
+  *[_type == "portfolioCategory"][]{
+    _id,
+    title,
+    'slug':slug.current
+}`;
+const { data: categories } = useSanityQuery(qryCategories);
+</script>
+
 <template>
   <section id="portfolio" class="portfolio">
     <div class="container" data-aos="fade-up">
       <header class="section-header">
-        <h2>Portfolio</h2>
-        <p>Check our latest work</p>
+        <h2>{{ portfolio.title }}</h2>
+        <p>{{ portfolio.headline }}</p>
       </header>
 
       <div class="row" data-aos="fade-up" data-aos-delay="100">
         <div class="col-lg-12 d-flex justify-content-center">
-          <ul id="portfolio-flters">
+          <ul id="portfolio-filters">
             <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">App</li>
-            <li data-filter=".filter-card">Card</li>
-            <li data-filter=".filter-web">Web</li>
+            <!-- <pre>{{ categories }}</pre> -->
+            <li
+              v-for="item in categories"
+              :key="item._id"
+              :data-filter="`.filter-${item.slug}`"
+            >
+              {{ item.title }}
+            </li>
           </ul>
         </div>
       </div>
@@ -22,235 +60,31 @@
         data-aos="fade-up"
         data-aos-delay="200"
       >
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+        <div
+          v-for="item in portfolio.items"
+          :key="item._id"
+          :class="`col-lg-4 col-md-6 portfolio-item filter-${item.category.slug}`"
+        >
           <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-1.jpg"
+            <SanityImage
+              :asset-id="item.firstImageId"
               class="img-fluid"
-              alt=""
+              :alt="item.title"
             />
             <div class="portfolio-info">
-              <h4>App 1</h4>
-              <p>App</p>
+              <h4>{{ item.title }}</h4>
+              <p>{{ item.category.title }}</p>
               <div class="portfolio-links">
                 <a
-                  href="assets/img/portfolio/portfolio-1.jpg"
+                  :href="item.firstImageUrl"
                   data-gallery="portfolioGallery"
                   class="portfolio-lightbox"
-                  title="App 1"
-                  ><i class="bi bi-plus"></i
+                  :title="item.title"
+                  ><i class="fa fa-plus"></i
                 ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-2.jpg"
-              class="img-fluid"
-              alt=""
-            />
-            <div class="portfolio-info">
-              <h4>Web 3</h4>
-              <p>Web</p>
-              <div class="portfolio-links">
-                <a
-                  href="assets/img/portfolio/portfolio-2.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox"
-                  title="Web 3"
-                  ><i class="bi bi-plus"></i
-                ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-          <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-3.jpg"
-              class="img-fluid"
-              alt=""
-            />
-            <div class="portfolio-info">
-              <h4>App 2</h4>
-              <p>App</p>
-              <div class="portfolio-links">
-                <a
-                  href="assets/img/portfolio/portfolio-3.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox"
-                  title="App 2"
-                  ><i class="bi bi-plus"></i
-                ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-4.jpg"
-              class="img-fluid"
-              alt=""
-            />
-            <div class="portfolio-info">
-              <h4>Card 2</h4>
-              <p>Card</p>
-              <div class="portfolio-links">
-                <a
-                  href="assets/img/portfolio/portfolio-4.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox"
-                  title="Card 2"
-                  ><i class="bi bi-plus"></i
-                ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-5.jpg"
-              class="img-fluid"
-              alt=""
-            />
-            <div class="portfolio-info">
-              <h4>Web 2</h4>
-              <p>Web</p>
-              <div class="portfolio-links">
-                <a
-                  href="assets/img/portfolio/portfolio-5.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox"
-                  title="Web 2"
-                  ><i class="bi bi-plus"></i
-                ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-          <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-6.jpg"
-              class="img-fluid"
-              alt=""
-            />
-            <div class="portfolio-info">
-              <h4>App 3</h4>
-              <p>App</p>
-              <div class="portfolio-links">
-                <a
-                  href="assets/img/portfolio/portfolio-6.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox"
-                  title="App 3"
-                  ><i class="bi bi-plus"></i
-                ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-7.jpg"
-              class="img-fluid"
-              alt=""
-            />
-            <div class="portfolio-info">
-              <h4>Card 1</h4>
-              <p>Card</p>
-              <div class="portfolio-links">
-                <a
-                  href="assets/img/portfolio/portfolio-7.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox"
-                  title="Card 1"
-                  ><i class="bi bi-plus"></i
-                ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-8.jpg"
-              class="img-fluid"
-              alt=""
-            />
-            <div class="portfolio-info">
-              <h4>Card 3</h4>
-              <p>Card</p>
-              <div class="portfolio-links">
-                <a
-                  href="assets/img/portfolio/portfolio-8.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox"
-                  title="Card 3"
-                  ><i class="bi bi-plus"></i
-                ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img
-              src="assets/img/portfolio/portfolio-9.jpg"
-              class="img-fluid"
-              alt=""
-            />
-            <div class="portfolio-info">
-              <h4>Web 3</h4>
-              <p>Web</p>
-              <div class="portfolio-links">
-                <a
-                  href="assets/img/portfolio/portfolio-9.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox"
-                  title="Web 3"
-                  ><i class="bi bi-plus"></i
-                ></a>
-                <a href="/portfolio/portfolio-details" title="More Details"
-                  ><i class="bi bi-link"></i
-                ></a>
+                <NuxtLink :to="`/portfolio/${item.slug}`" title="More Details"
+                  ><i class="fa fa-link"></i
+                ></NuxtLink>
               </div>
             </div>
           </div>

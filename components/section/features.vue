@@ -9,16 +9,31 @@ const qryFeatures = groq`
       'imgId':image.asset->_id,
       simpleList
     },
-  tabbedList{
-    isActive,
-  'imgId':image.asset->_id,
-    tabbedListTitle,
-    tabbedList[]{
-      _key,
-      tabTitle,
-      body,
-    }
-  }
+    tabbedList{
+      isActive,
+    'imgId':image.asset->_id,
+      tabbedListTitle,
+      tabbedList[]{
+        _key,
+        tabTitle,
+        body,
+      }
+    },
+    iconList{
+      isActive,
+      listTitle,
+      'imgId':listImage.asset->_id,
+      iconListItem[]{
+        _key,
+        itemTitle,
+        body,
+        icon{
+          style,
+          provider,
+          name
+        }
+      }
+    },
   }`;
 const { data: features } = useSanityQuery(qryFeatures);
 </script>
@@ -48,8 +63,8 @@ const { data: features } = useSanityQuery(qryFeatures);
               v-for="(item, index) in features.simpleList.simpleList"
               :key="index"
             >
-              <div class="feature-box d-flex align-items-center">
-                <i class="bi bi-check"></i>
+              <div class="feature-box d-flex align-items-center gap-2">
+                <i class="fa-duotone fa-check-double"></i>
                 <h3>{{ item }}</h3>
               </div>
             </div>
@@ -62,7 +77,7 @@ const { data: features } = useSanityQuery(qryFeatures);
       <div
         class="row feature-tabs"
         data-aos="fade-up"
-        v-if="!features.tabbedList.isActive"
+        v-if="features.tabbedList.isActive"
       >
         <div class="col-lg-6">
           <h3>
@@ -111,8 +126,12 @@ const { data: features } = useSanityQuery(qryFeatures);
       <!-- End Feature Tabs -->
 
       <!-- Feature Icons -->
-      <div class="row feature-icons" data-aos="fade-up">
-        <h3>Ratione mollitia eos ab laudantium rerum beatae quo</h3>
+      <div
+        class="row feature-icons"
+        data-aos="fade-up"
+        v-if="features.iconList.isActive"
+      >
+        <h3>{{ features.iconList.listTitle }}</h3>
 
         <div class="row">
           <div
@@ -120,23 +139,32 @@ const { data: features } = useSanityQuery(qryFeatures);
             data-aos="fade-right"
             data-aos-delay="100"
           >
-            <img src="assets/img/features-3.png" class="img-fluid p-4" alt="" />
+            <SanityImage
+              :asset-id="features.iconList.imgId"
+              auto="format"
+              class="img-fluid p-4"
+              :alt="features.iconList.listTitle"
+            />
           </div>
 
           <div class="col-xl-8 d-flex content">
             <div class="row align-self-center gy-4">
-              <div class="col-md-6 icon-box" data-aos="fade-up">
-                <i class="ri-line-chart-line"></i>
+              <div
+                class="col-md-6 d-flex align-self-center gap-2"
+                v-for="item in features.iconList.iconListItem"
+                data-aos="fade-up"
+              >
+                <i
+                  :class="`${item.icon.provider}-${item.icon.style} ${item.icon.name}`"
+                  style="height: 3em"
+                ></i>
                 <div>
-                  <h4>Corporis voluptates sit</h4>
-                  <p>
-                    Consequuntur sunt aut quasi enim aliquam quae harum pariatur
-                    laboris nisi ut aliquip
-                  </p>
+                  <h4>{{ item.title }}</h4>
+                  <p>{{ item.body }}</p>
                 </div>
               </div>
 
-              <div
+              <!-- <div
                 class="col-md-6 icon-box"
                 data-aos="fade-up"
                 data-aos-delay="100"
@@ -209,7 +237,7 @@ const { data: features } = useSanityQuery(qryFeatures);
                     ab aut inventore
                   </p>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
