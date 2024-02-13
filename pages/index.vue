@@ -8,8 +8,8 @@
   <SectionFaq />
   <SectionPortfolio />
   <SectionTeam /> -->
-  <SectionTestimonials />
-  <SectionClients />
+  <!-- <SectionTestimonials />
+  <SectionClients /> -->
   <SectionRecentBlogPosts />
   <SectionContact />
 </template>

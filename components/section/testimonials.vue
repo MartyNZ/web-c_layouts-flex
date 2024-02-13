@@ -7,7 +7,8 @@ const qryTestimonials = groq`
       'fullName': firstName + ' ' + lastName,
       rating,
       testimonial,
-      role
+      role,
+      'imageUrl':image.asset->url
     }
   }
 `;
@@ -27,16 +28,18 @@ const { data: testimonials } = useSanityQuery(qryTestimonials);
         data-aos-delay="200"
       >
         <div class="swiper-wrapper">
-          <pre>{{ testimonials.clients }}</pre>
           <div class="swiper-slide" v-for="client in testimonials.clients">
             <div class="testimonial-item">
               <div class="stars">
-                <i class="fa fa-star" :v-for="`n in ${client.rating}`"></i>
+                <i
+                  class="fa fa-star"
+                  v-for="n in Array(client.rating).fill().length"
+                ></i>
               </div>
               <SanityContent :blocks="client.testimonial" />
               <div class="profile mt-auto">
                 <img
-                  :src="client.image"
+                  :src="client.imageUrl"
                   class="testimonial-img"
                   :alt="client.fullName"
                 />
