@@ -1,13 +1,14 @@
 <script setup>
-const qryBlog = groq`
-{
-  'blog':*[_type == "blog"][0]{
+const qryHeaders = groq`
+*[_type == "blog"][0]{
     'imageId':image.asset->_id,
     title,
     headline,
     'slug':slug.current
-  },
-  'recentPosts':*[_type=='blogPost'] | order(publishedDate)[0...3]{
+  }`;
+const { data: headers } = useSanityQuery(qryHeaders);
+const qryPosts = groq`
+  * [_type == 'blogPost'] | order(publishedDate)[0...3]{
     _id,
     _slug,
     title,
@@ -18,11 +19,9 @@ const qryBlog = groq`
     publishedDate,
     body
   }
-}
 `;
-const { data } = useSanityQuery(qryBlog);
-const headers = data.value.blog;
-const posts = data.value.recentPosts;
+
+const { data: posts } = useSanityQuery(qryPosts);
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <template>
-  <!-- <SectionAbout />
+  <SectionAbout />
   <SectionValues />
   <SectionCounts />
   <SectionFeatures />
@@ -7,9 +7,9 @@
   <SectionPricing />
   <SectionFaq />
   <SectionPortfolio />
-  <SectionTeam /> -->
-  <!-- <SectionTestimonials />
-  <SectionClients /> -->
+  <SectionTeam />
+  <SectionTestimonials />
+  <SectionClients />
   <SectionRecentBlogPosts />
   <SectionContact />
 </template>
