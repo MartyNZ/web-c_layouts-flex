@@ -1,4 +1,5 @@
 <script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const qryTeam = groq`
   *[_type == "team"][0]{
     title,
@@ -55,7 +56,10 @@ const { data: team } = useSanityQuery(qryTeam);
                         ? 'x-twitter'
                         : connection._type
                     "
-                    ><i :class="`fa-brands fa-${connection._type}`"></i
+                    ><ClientOnly
+                      ><FontAwesomeIcon
+                        :icon="['fab', connection.iconName]"
+                      ></FontAwesomeIcon></ClientOnly
                   ></NuxtLink>
                 </template>
               </div>

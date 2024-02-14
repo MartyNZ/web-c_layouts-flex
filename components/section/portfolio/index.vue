@@ -1,4 +1,5 @@
 <script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const qryPortfolio = groq`
 *[_type == "portfolio"][0]{
     title,
@@ -75,15 +76,19 @@ const { data: categories } = useSanityQuery(qryCategories);
               <h4>{{ item.title }}</h4>
               <p>{{ item.category.title }}</p>
               <div class="portfolio-links">
-                <a
-                  :href="item.firstImageUrl"
+                <NuxtLink
+                  :to="item.firstImageUrl"
                   data-gallery="portfolioGallery"
                   class="portfolio-lightbox"
                   :title="item.title"
-                  ><i class="fa fa-plus"></i
-                ></a>
+                  ><ClientOnly>
+                    <FontAwesomeIcon icon="fal fa-plus"></FontAwesomeIcon>
+                  </ClientOnly>
+                </NuxtLink>
                 <NuxtLink :to="`/portfolio/${item.slug}`" title="More Details"
-                  ><i class="fa fa-link"></i
+                  ><ClientOnly>
+                    <FontAwesomeIcon icon="fal fa-link">
+                    </FontAwesomeIcon> </ClientOnly
                 ></NuxtLink>
               </div>
             </div>

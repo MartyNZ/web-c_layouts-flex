@@ -1,4 +1,5 @@
 <script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const qryFeatures = groq`
   *[_type=='features'][0]{
     title,
@@ -29,8 +30,7 @@ const qryFeatures = groq`
         body,
         icon{
           style,
-          provider,
-          name
+          'name':provider +'-'+ name,
         }
       }
     },
@@ -64,7 +64,12 @@ const { data: features } = useSanityQuery(qryFeatures);
               :key="index"
             >
               <div class="feature-box d-flex align-items-center gap-2">
-                <i class="fa-duotone fa-check-double"></i>
+                <ClientOnly>
+                  <FontAwesomeIcon
+                    icon="fad fa-check-double"
+                    style="height: 2em; color: #4154f1"
+                  ></FontAwesomeIcon>
+                </ClientOnly>
                 <h3>{{ item }}</h3>
               </div>
             </div>
@@ -154,10 +159,12 @@ const { data: features } = useSanityQuery(qryFeatures);
                 v-for="item in features.iconList.iconListItem"
                 data-aos="fade-up"
               >
-                <i
-                  :class="`${item.icon.provider}-${item.icon.style} ${item.icon.name}`"
-                  style="height: 3em"
-                ></i>
+                <ClientOnly>
+                  <FontAwesomeIcon
+                    :icon="`${item.icon.style} ${item.icon.name}`"
+                    style="height: 3em; color: #4154f1"
+                  ></FontAwesomeIcon>
+                </ClientOnly>
                 <div>
                   <h4>{{ item.title }}</h4>
                   <p>{{ item.body }}</p>

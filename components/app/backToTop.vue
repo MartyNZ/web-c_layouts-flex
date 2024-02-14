@@ -1,7 +1,11 @@
+<script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+</script>
 <template>
   <a
     href="#"
     class="back-to-top d-flex align-items-center justify-content-center"
-    ><i class="fa fa-arrow-up"></i
+    ><ClientOnly>
+      <FontAwesomeIcon icon="fad fa-arrow-up"></FontAwesomeIcon> </ClientOnly
   ></a>
 </template>

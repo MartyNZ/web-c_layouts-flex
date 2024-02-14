@@ -10,7 +10,7 @@ const { data: headers } = useSanityQuery(qryHeaders);
 const qryPosts = groq`
   * [_type == 'blogPost'] | order(publishedDate)[0...3]{
     _id,
-    _slug,
+    'slug':slug.current,
     title,
     'imageId':image.asset->_id,
     tags,

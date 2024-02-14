@@ -1,9 +1,16 @@
 <script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const qryCounters = groq`
-  *[_type == 'counters' ][0]{
-    'slug':slug.current,
+  *[_type == "counters"][0]{
     title,
-    counters
+    counters[]{
+      title,
+      count,
+      icon{
+        'name':provider +'-'+ name,
+        style
+      }
+    }
   }
 `;
 const { data: counts } = useSanityQuery(qryCounters);
@@ -18,10 +25,12 @@ const { data: counts } = useSanityQuery(qryCounters);
           :key="count._key"
         >
           <div class="count-box">
-            <i
-              :class="`${count.icon.provider}-${count.icon.style} ${count.icon.name}`"
-              style="height: 4em; padding-end: 1em; color: blue"
-            ></i>
+            <ClientOnly>
+              <FontAwesomeIcon
+                :icon="[count.icon.style, count.icon.name]"
+                style="height: 4em; padding-end: 1em; color: #4154f1"
+              ></FontAwesomeIcon
+            ></ClientOnly>
             <div>
               <span
                 data-purecounter-start="0"

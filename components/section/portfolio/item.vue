@@ -1,48 +1,66 @@
+<script setup>
+const qryPortfolioItem = groq`
+  *[_type == "portfolioItem"][0]{
+    title,
+    'slug':slug.current,
+    body,
+    projectUrl,
+    client,
+    'category':category->title,
+    date,
+    images[]{
+      _key,
+      'imageId':asset->_id
+    }
+  }`;
+const { data: portfolioItem } = useSanityQuery(qryPortfolioItem);
+</script>
+
 <template>
   <section id="portfolio-details" class="portfolio-details">
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-8">
-          <div class="portfolio-details-slider swiper">
-            <div class="swiper-wrapper align-items-center">
-              <div class="swiper-slide">
-                <img src="/assets/img/portfolio/portfolio-1.jpg" alt="" />
+          <ClientOnly>
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+                <div
+                  class="swiper-slide"
+                  v-for="image in portfolioItem.images"
+                  :key="image._key"
+                >
+                  <SanityImage
+                    :asset-id="image.imageId"
+                    :alt="portfolioItem.title"
+                  />
+                </div>
               </div>
-
-              <div class="swiper-slide">
-                <img src="/assets/img/portfolio/portfolio-2.jpg" alt="" />
-              </div>
-
-              <div class="swiper-slide">
-                <img src="/assets/img/portfolio/portfolio-3.jpg" alt="" />
-              </div>
+              <div class="swiper-pagination"></div>
             </div>
-            <div class="swiper-pagination"></div>
-          </div>
+          </ClientOnly>
         </div>
 
         <div class="col-lg-4">
           <div class="portfolio-info">
             <h3>Project information</h3>
             <ul>
-              <li><strong>Category</strong>: Web design</li>
-              <li><strong>Client</strong>: ASU Company</li>
-              <li><strong>Project date</strong>: 01 March, 2020</li>
+              <li><strong>Category</strong>: {{ portfolioItem.category }}</li>
+              <li><strong>Client</strong>: {{ portfolioItem.client }}</li>
+              <li><strong>Project date</strong>: {{ portfolioItem.date }}</li>
               <li>
-                <strong>Project URL</strong>: <a href="#">www.example.com</a>
+                <strong>Project URL</strong>:
+                <NuxtLink
+                  :target="`${portfolioItem.projectUrl.newWindow} ? '_blank' : '_top'`"
+                  :to="portfolioItem.projectUrl.url"
+                  >{{ portfolioItem.projectUrl.title }}</NuxtLink
+                >
               </li>
             </ul>
           </div>
-          <div class="portfolio-description">
-            <h2>This is an example of portfolio detail</h2>
-            <p>
-              Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque
-              inventore commodi labore quia quia. Exercitationem repudiandae
-              officiis neque suscipit non officia eaque itaque enim. Voluptatem
-              officia accusantium nesciunt est omnis tempora consectetur
-              dignissimos. Sequi nulla at esse enim cum deserunt eius.
-            </p>
-          </div>
+          <SanityContent
+            :blocks="portfolioItem.body"
+            class="portfolio-description"
+          />
         </div>
       </div>
     </div>

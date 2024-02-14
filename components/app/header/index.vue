@@ -17,10 +17,10 @@ const { data: settings } = useSanityQuery(qrySettings);
     <div
       class="container-fluid container-xl d-flex align-items-center justify-content-between"
     >
-      <a href="/" class="logo d-flex align-items-center">
+      <NuxtLink to="/" class="logo d-flex align-items-center">
         <img :src="settings.logoUrl" :alt="settings.title" />
         <span>{{ settings.title }}</span>
-      </a>
+      </NuxtLink>
 
       <nav id="navbar" class="navbar">
         <AppHeaderMenu :navigation="mainNavigation" />

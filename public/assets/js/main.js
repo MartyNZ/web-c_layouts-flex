@@ -240,9 +240,9 @@
   /**
    * Initiate portfolio lightbox
    */
-  const portfolioLightbox = GLightbox({
-    selector: ".portfolio-lightbox",
-  });
+  // const portfolioLightbox = GLightbox({
+  //   selector: ".portfolio-lightbox",
+  // });
 
   /**
    * Portfolio details slider
@@ -291,17 +291,17 @@
   /**
    * Animation on scroll
    */
-  function aos_init() {
-    AOS.init({
-      duration: 1000,
-      easing: "ease-in-out",
-      once: true,
-      mirror: false,
-    });
-  }
-  window.addEventListener("load", () => {
-    aos_init();
-  });
+  // function aos_init() {
+  //   AOS.init({
+  //     duration: 1000,
+  //     easing: "ease-in-out",
+  //     once: true,
+  //     mirror: false,
+  //   });
+  // }
+  // window.addEventListener("load", () => {
+  //   aos_init();
+  // });
 
   /**
    * Initiate Pure Counter

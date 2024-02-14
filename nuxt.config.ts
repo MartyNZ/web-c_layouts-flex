@@ -1,8 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // devtools: { enabled: true },
-  modules: ["@nuxtjs/sanity"],
-  css: ["bootstrap/scss/bootstrap.scss"],
+  modules: ["@nuxtjs/sanity", "nuxt-aos", "nuxt-swiper"],
+  css: [
+    "bootstrap/scss/bootstrap.scss",
+    "@fortawesome/fontawesome-svg-core/styles.css",
+  ],
   app: {
     head: {
       htmlAttrs: {
@@ -29,18 +32,12 @@ export default defineNuxtConfig({
           body: true,
           src: "/assets/vendor/swiper/swiper-bundle.min.js",
         },
-        {
-          type: "text/javascript",
-          hid: "glightbox",
-          body: true,
-          src: "/assets/vendor/glightbox/js/glightbox.js",
-        },
-        {
-          type: "text/javascript",
-          hid: "aos",
-          body: true,
-          src: "/assets/vendor/aos/aos.js",
-        },
+        // {
+        //   type: "text/javascript",
+        //   hid: "aos",
+        //   body: true,
+        //   src: "/assets/vendor/aos/aos.js",
+        // },
         {
           type: "text/javascript",
           hid: "isotope",
@@ -65,26 +62,18 @@ export default defineNuxtConfig({
           rel: "stylesheet",
           href: "/assets/vendor/swiper/swiper-bundle.min.css",
         },
-        {
-          rel: "stylesheet",
-          href: "/assets/vendor/aos/aos.css",
-        },
         // {
         //   rel: "stylesheet",
-        //   href: "/assets/vendor/bootstrap-icons/bootstrap-icons.css",
+        //   href: "/assets/vendor/aos/aos.css",
         // },
-        {
-          rel: "stylesheet",
-          href: "/assets/vendor/glightbox/css/glightbox.min.css",
-        },
         {
           href: "/assets/vendor/bootstrap/css/bootstrap.min.css",
           rel: "stylesheet",
         },
-        {
-          href: "/assets/vendor/remixicon/remixicon.css",
-          rel: "stylesheet",
-        },
+        // {
+        //   href: "/assets/vendor/remixicon/remixicon.css",
+        //   rel: "stylesheet",
+        // },
         {
           href: "/assets/css/style.css",
           rel: "stylesheet",
