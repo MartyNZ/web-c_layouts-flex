@@ -1,4 +1,5 @@
 <script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const qryAbout = groq`
   *[_type == 'about' ][0]{
     'slug':slug.current,
@@ -28,10 +29,15 @@ const { data: about } = useSanityQuery(qryAbout);
             <div class="text-center text-lg-start">
               <a
                 href="#"
-                class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center"
+                class="btn-read-more d-inline-flex align-items-center gap-2 justify-content-center align-self-center"
               >
-                <span>Read More</span>
-                <i class="bi bi-arrow-right"></i>
+                <span class="pr-2">Read More</span>
+                <ClientOnly>
+                  <FontAwesomeIcon
+                    class=""
+                    :icon="['fal', 'arrow-right']"
+                  ></FontAwesomeIcon>
+                </ClientOnly>
               </a>
             </div>
           </div>

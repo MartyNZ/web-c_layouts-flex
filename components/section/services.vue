@@ -1,4 +1,5 @@
 <script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const qryServices = groq`
   *[_type == "services"][0]{
     title,
@@ -37,16 +38,24 @@ const { data: services } = useSanityQuery(qryServices);
             :onmouseover="`this.style='background-color:${item.colourHex}'`"
             :onmouseout="`this.style='background-color:inherit;border-bottom:3px solid ${item.colourHex};'`"
           >
-            <i
-              class="ri-discuss-line icon"
-              :style="`color:${item.colourHex}`"
-            ></i>
+            <ClientOnly>
+              <FontAwesomeIcon
+                class="icon"
+                :icon="['fal', 'message-middle']"
+                size="2xl"
+                :style="{ color: item.colourHex }"
+              ></FontAwesomeIcon>
+            </ClientOnly>
             <h3>{{ item.title }}</h3>
             <p>
               {{ item.summary }}
             </p>
-            <a href="#" class="read-more"
-              ><span>Read More</span> <i class="bi bi-arrow-right"></i
+            <a href="#" class="read-more d-flex-inline gap-2"
+              ><span>Read More</span>
+              <ClientOnly>
+                <FontAwesomeIcon
+                  icon="fal fa-arrow-right"
+                ></FontAwesomeIcon> </ClientOnly
             ></a>
           </div>
         </div>

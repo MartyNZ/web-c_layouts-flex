@@ -109,9 +109,10 @@ const { data: features } = useSanityQuery(qryFeatures);
           <!-- Tab Content -->
           <div class="tab-content">
             <div
-              class="tab-pane fade show active"
+              :class="index === 0 ? 'active' : ''"
+              class="tab-pane fade show"
               :id="item._key"
-              v-for="item in features.tabbedList.tabbedList"
+              v-for="(item, index) in features.tabbedList.tabbedList"
               :key="item._key"
             >
               <SanityContent :blocks="item.body" />

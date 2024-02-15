@@ -1,37 +1,55 @@
 <script setup>
-const bgImage = "assets/img/hero-bg.png";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+const qryHero = groq`
+  *[_type=='hero'][0]{
+    title,
+    content,
+    'bgImageUrl':bgImage.asset->url,
+    'imageId':image.asset->_id,
+    'slug':slug.current,
+  }
+`;
+const { data: hero } = useSanityQuery(qryHero);
 </script>
 
 <template>
   <section
     id="hero"
     class="hero d-flex align-items-center"
-    style="`background-image: "
-    url(${bgImage})`
+    :style="`background-image: url(${hero.bgImageUrl})`"
   >
     <div class="container">
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">
           <h1 data-aos="fade-up">
-            We offer modern solutions for growing your business
+            {{ hero.title }}
           </h1>
-          <h2 data-aos="fade-up" data-aos-delay="400">
-            We are team of talented designers making websites with Bootstrap
-          </h2>
+          <div class="h2" data-aos="fade-up" data-aos-delay="400">
+            <SanityContent :blocks="hero.content" />
+          </div>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
               <a
                 href="#about"
-                class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center"
+                class="btn-get-started scrollto d-inline-flex align-items-center gap-2 justify-content-center align-self-center"
               >
                 <span>Get Started</span>
-                <i class="bi bi-arrow-right"></i>
+                <ClientOnly
+                  ><FontAwesomeIcon
+                    :icon="['fal', 'arrow-right']"
+                  ></FontAwesomeIcon
+                ></ClientOnly>
               </a>
             </div>
           </div>
         </div>
         <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
-          <img src="assets/img/hero-img.png" class="img-fluid" alt="" />
+          <SanityImage
+            :asset-id="hero.imageId"
+            class="img-fluid"
+            :alt="hero.title"
+          />
         </div>
       </div>
     </div>

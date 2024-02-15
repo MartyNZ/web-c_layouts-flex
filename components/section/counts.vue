@@ -14,6 +14,10 @@ const qryCounters = groq`
   }
 `;
 const { data: counts } = useSanityQuery(qryCounters);
+
+onMounted(() => {
+  new PureCounter();
+});
 </script>
 <template>
   <section id="counts" class="counts">

@@ -1,9 +1,9 @@
 import { library, config } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { fad } from "@fortawesome/pro-duotone-svg-icons";
-import { fal } from "@fortawesome/pro-light-svg-icons";
-import { byPrefixAndName } from "@awesome.me/kit-0f286115aa/icons";
-import { fab } from "@fortawesome/free-brands-svg-icons";
+// import { fad } from "@fortawesome/pro-duotone-svg-icons";
+// import { fal } from "@fortawesome/pro-light-svg-icons";
+import { fab, fad, fal } from "@awesome.me/kit-0f286115aa/icons";
+// import { fab } from "@fortawesome/free-brands-svg-icons";
 
 // This is important, we are going to let Nuxt worry about the CSS
 config.autoAddCss = false;

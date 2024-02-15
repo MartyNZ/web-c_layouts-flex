@@ -11,6 +11,28 @@ const qryClients = groq`
   }
 `;
 const { data: clients } = useSanityQuery(qryClients);
+
+const breakpoints = ref({
+  // 700px and up
+  700: {
+    itemsToShow: 3,
+    snapAlign: "center",
+  },
+  // 1024 and up
+  1024: {
+    itemsToShow: 5,
+    snapAlign: "start",
+  },
+  //1280 and up
+  1280: {
+    itemsToShow: 7,
+    snapAlign: "start",
+  },
+});
+const settings = ref({
+  itemsToShow: 1,
+  snapAlign: "center",
+});
 </script>
 
 <template>
@@ -21,22 +43,45 @@ const { data: clients } = useSanityQuery(qryClients);
         <p>{{ clients.headline }}</p>
       </header>
 
-      <div class="clients-slider swiper">
-        <div class="swiper-wrapper align-items-center">
-          <div
+      <ClientOnly>
+        <Carousel
+          :breakpoints="breakpoints"
+          :settings="settings"
+          :wrap-around="true"
+          :autoplay="6000"
+          class="clients-slider swiper"
+        >
+          <Slide
             class="swiper-slide"
             v-for="client in clients.clients"
             :key="client._key"
+            style="width: 116px; margin-right: 120px"
           >
             <SanityImage
               :asset-id="client.logoId"
               class="img-fluid"
               :alt="client.name"
             />
-          </div>
-        </div>
-        <div class="swiper-pagination"></div>
-      </div>
+          </Slide>
+          <template #addons>
+            <Pagination />
+          </template>
+        </Carousel>
+        <template #fallback>
+          <ul>
+            <li v-for="item in clients.clients" :key="item._id">
+              {{ item.title }}
+            </li>
+          </ul>
+        </template>
+      </ClientOnly>
     </div>
   </section>
 </template>
+<style>
+.carousel__pagination-button::after {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+</style>

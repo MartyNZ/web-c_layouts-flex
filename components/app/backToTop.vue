@@ -6,6 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
     href="#"
     class="back-to-top d-flex align-items-center justify-content-center"
     ><ClientOnly>
-      <FontAwesomeIcon icon="fad fa-arrow-up"></FontAwesomeIcon> </ClientOnly
+      <FontAwesomeIcon icon="fal fa-arrow-up"></FontAwesomeIcon> </ClientOnly
   ></a>
 </template>
