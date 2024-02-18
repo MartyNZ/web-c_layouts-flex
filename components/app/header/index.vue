@@ -1,4 +1,5 @@
 <script setup>
+import select from "../../../utils/select";
 const qryNavigation = groq`*[_type == "navigation" && _id == "mainNavigation"][0]{
   name,
   _id,
@@ -11,7 +12,74 @@ const qrySettings = groq`*[_type == "settings"][0]{
   'logoUrl':logo.asset->url
   }`;
 const { data: settings } = useSanityQuery(qrySettings);
+
+onMounted(() => {
+  const headerScrolled = () => {
+    const header = select("#header");
+    if (window.scrollY > 100) {
+      header.classList.add("header-scrolled");
+    } else {
+      header.classList.remove("header-scrolled");
+    }
+  };
+
+  window.addEventListener("scroll", headerScrolled);
+
+  // Mobile nav toggle
+  const mobileNavToggle = select(".mobile-nav-toggle");
+  if (mobileNavToggle) {
+    mobileNavToggle.addEventListener("click", function (e) {
+      select("#navbar").classList.toggle("navbar-mobile");
+      this.classList.toggle("bi-list");
+      this.classList.toggle("bi-x");
+    });
+  }
+
+  // Mobile nav dropdowns
+  const navbarDropdowns = select(".navbar .dropdown > a");
+  if (navbarDropdowns) {
+    navbarDropdowns.addEventListener(
+      "click",
+      function (e) {
+        if (select("#navbar").classList.contains("navbar-mobile")) {
+          e.preventDefault();
+          this.nextElementSibling.classList.toggle("dropdown-active");
+        }
+      },
+      true
+    );
+  }
+
+  // Scroll-to links
+  const scrollToLinks = select(".scrollto");
+  if (scrollToLinks) {
+    scrollToLinks.addEventListener(
+      "click",
+      function (e) {
+        if (select(this.hash)) {
+          e.preventDefault();
+          let navbar = select("#navbar");
+          if (navbar.classList.contains("navbar-mobile")) {
+            navbar.classList.remove("navbar-mobile");
+            let navbarToggle = select(".mobile-nav-toggle");
+            navbarToggle.classList.toggle("fa-bars");
+            navbarToggle.classList.toggle("fa-xmark");
+          }
+          scrollto(this.hash);
+        }
+      },
+      true
+    );
+  }
+
+  // Clean up the event listeners when the component is unmounted
+  onUnmounted(() => {
+    window.removeEventListener("scroll", headerScrolled);
+    // Add any additional cleanup for the other event listeners here
+  });
+});
 </script>
+
 <template>
   <header id="header" class="header fixed-top">
     <div

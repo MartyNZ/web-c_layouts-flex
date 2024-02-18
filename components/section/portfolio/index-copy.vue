@@ -113,7 +113,7 @@ function setActiveFilter(filter) {
               <h4>{{ item.title }}</h4>
               <p>{{ item.category.title }}</p>
               <div class="portfolio-links">
-                <!-- <NuxtLink
+                <NuxtLink
                   :to="item.firstImageUrl"
                   data-gallery="portfolioGallery"
                   class="portfolio-lightbox"
@@ -121,7 +121,7 @@ function setActiveFilter(filter) {
                   ><ClientOnly>
                     <FontAwesomeIcon icon="fal fa-plus"></FontAwesomeIcon>
                   </ClientOnly>
-                </NuxtLink> -->
+                </NuxtLink>
                 <NuxtLink :to="`/portfolio/${item.slug}`" title="More Details"
                   ><ClientOnly>
                     <FontAwesomeIcon icon="fal fa-link">

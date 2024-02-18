@@ -1,4 +1,5 @@
 <script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const qryHeaders = groq`
 *[_type == "blog"][0]{
     'imageId':image.asset->_id,
@@ -49,8 +50,11 @@ const { data: posts } = useSanityQuery(qryPosts);
             <NuxtLink
               :to="`/blog/${post.slug}`"
               class="readmore stretched-link mt-auto"
-              ><span>Read More</span><i class="bi bi-arrow-right"></i
-            ></NuxtLink>
+              ><span>Read More</span>
+              <ClientOnly>
+                <FontAwesomeIcon :icon="['fal', 'fa-arrow-right']" />
+              </ClientOnly>
+            </NuxtLink>
           </div>
         </div>
       </div>

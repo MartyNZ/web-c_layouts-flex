@@ -1,0 +1,4 @@
+<template>
+  <AppBreadcrumbs />
+  <SectionPortfolio />
+</template>
