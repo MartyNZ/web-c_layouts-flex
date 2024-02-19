@@ -29,10 +29,20 @@ const props = defineProps({
             <div class="entry-meta">
               <ul>
                 <li class="d-flex align-items-center gap-1">
-                  <ClientOnly>
-                    <FontAwesomeIcon icon="fa-light fa-user"></FontAwesomeIcon>
-                  </ClientOnly>
-                  {{ post.authors[0].fullName }}
+                  <template
+                    v-for="(author, index) in post.authors"
+                    :key="author._id"
+                  >
+                    <ClientOnly>
+                      <FontAwesomeIcon
+                        icon="fa-light fa-user"
+                      ></FontAwesomeIcon>
+                    </ClientOnly>
+                    <span v-if="post.authors.length - 1 != index" class="author"
+                      >{{ author.fullName }},
+                    </span>
+                    <span v-else class="author">{{ author.fullName }} </span>
+                  </template>
                 </li>
                 <li class="d-flex align-items-center gap-1">
                   <ClientOnly>
