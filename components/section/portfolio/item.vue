@@ -1,27 +1,10 @@
 <script setup>
 const props = defineProps({
   portfolioItem: {
-    type: Any,
+    type: Object,
     required: true,
   },
 });
-
-// const qryPortfolioItem = groq`
-//   *[_type == "portfolioItem"][0]{
-//     title,
-//     'slug':slug.current,
-//     body,
-//     projectUrl,
-//     client,
-//     'category':category->title,
-//     date,
-//     images[]{
-//       _key,
-//       'imageId':asset->_id,
-//       'imageUrl':asset->url
-//     }
-//   }`;
-// const { data: portfolioItem } = useSanityQuery(qryPortfolioItem);
 
 const visibleRef = ref(false);
 const indexRef = ref(0);
@@ -30,7 +13,6 @@ const fullImageUrls = reactive([]);
 
 watchEffect(() => {
   if (props.portfolioItem && props.portfolioItem.images) {
-    // console.log("Current portfolioItem:", JSON.stringify(portfolioItem.value));
     if (props.portfolioItem.images) {
       imgs.splice(
         0,
@@ -50,17 +32,17 @@ watchEffect(() => {
   }
 });
 
-// const onPrev = (oldIndex, newIndex) => {
-//   console.log("when prev btn click ----");
-//   console.log("oldIndex of imgs:", oldIndex);
-//   console.log("newIndex of imgs:", newIndex);
-// };
+const onPrev = (oldIndex, newIndex) => {
+  console.log("when prev btn click ----");
+  console.log("oldIndex of imgs:", oldIndex);
+  console.log("newIndex of imgs:", newIndex);
+};
 
-// const onNext = (oldIndex, newIndex) => {
-//   console.log("when next btn click ----");
-//   console.log("oldIndex of imgs:", oldIndex);
-//   console.log("newIndex of imgs:", newIndex);
-// };
+const onNext = (oldIndex, newIndex) => {
+  console.log("when next btn click ----");
+  console.log("oldIndex of imgs:", oldIndex);
+  console.log("newIndex of imgs:", newIndex);
+};
 const onShow = (index) => {
   indexRef.value = index;
   visibleRef.value = true;
@@ -73,12 +55,12 @@ const onHide = () => {
 <template>
   <section id="portfolio-details" class="portfolio-details">
     <div class="container">
-      <div class="col-lg-8 p-5">
+      <div class="col-lg-8">
         <ClientOnly>
+          <!-- :autoplay="6000" -->
           <Carousel
             class="gallery portfolio-details-slider swiper"
             :wrap-around="true"
-            :autoplay="6000"
             :items-to-show="1"
             :pauseAutoplayOnHover="true"
           >

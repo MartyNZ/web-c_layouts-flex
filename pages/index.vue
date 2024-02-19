@@ -10,6 +10,6 @@
   <SectionTeam />
   <SectionTestimonials />
   <SectionClients />
-  <SectionRecentBlogPosts />
+  <SectionBlogRecentPosts />
   <SectionContact />
 </template>

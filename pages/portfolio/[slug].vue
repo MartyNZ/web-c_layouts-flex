@@ -1,6 +1,5 @@
 <script setup>
-const { slug } = useRoute().params;
-const { fullPath } = useRoute().fullPath;
+const route = useRoute();
 
 const qryPortfolioItem = groq`
   *[_type == "portfolioItem" && slug.current == $slug][0]{
@@ -19,12 +18,10 @@ const qryPortfolioItem = groq`
   }
 `;
 const { data: portfolioItem } = useSanityQuery(qryPortfolioItem, {
-  slug: slug,
+  slug: route.params.slug,
 });
 </script>
 <template>
-  <pre>{{ slug }} {{ fullPath }}</pre>
-  <pre>{{ portfolioItem }}</pre>
-  <!-- <AppBreadcrumbs :slug="slug" /> -->
-  <!-- <SectionPortfolioItem :portfolioItem="portfolioItem" /> -->
+  <AppBreadcrumbs />
+  <SectionPortfolioItem v-if="portfolioItem" :portfolioItem="portfolioItem" />
 </template>

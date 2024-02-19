@@ -49,7 +49,7 @@ const { data: posts } = useSanityQuery(qryPosts);
             </h3>
             <NuxtLink
               :to="`/blog/${post.slug}`"
-              class="readmore stretched-link mt-auto"
+              class="readmore stretched-link mt-auto d-flex-inline gap-2"
               ><span>Read More</span>
               <ClientOnly>
                 <FontAwesomeIcon :icon="['fal', 'fa-arrow-right']" />

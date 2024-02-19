@@ -1,33 +1,42 @@
 <script setup>
-const props = defineProps({
-  slug: {
-    type: String,
-    required: true,
-  },
-});
-const path = useRoute().fullPath;
+const route = useRoute();
+const path = route.path;
 
-console.log(path);
+const breadcrumbPath = (path) => {
+  // Split the path into segments
+  const segments = path.split("/");
 
-const titleize = (slug) => {
-  let words = slug.split("-");
-  return words
-    .map(function (word) {
-      return word.charAt(0).toUpperCase() + word.substring(1).toLowerCase();
-    })
-    .join(" ");
+  // Remove the first item from the segments array
+  const segmentsWithoutFirst = segments.slice(1);
+
+  // Create an array of objects with segment and title properties
+  return segmentsWithoutFirst.map((segment) => {
+    let words = segment.split("-");
+    const title = words
+      .map(
+        (word) => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
+      )
+      .join(" ");
+    return { segment, title };
+  });
 };
-
-console.log(titleize(slug));
 </script>
 <template>
   <section class="breadcrumbs">
     <div class="container">
       <ol>
-        <li><a href="index.html">Home</a></li>
-        <li>Blog</li>
+        <li>
+          <NuxtLink to="/"> Home </NuxtLink>
+        </li>
+        <template v-for="(item, index) in breadcrumbPath(path)" :key="index">
+          <li v-if="index !== breadcrumbPath(path).length - 1">
+            <NuxtLink :to="`/${item.segment}/`">
+              {{ item.title }}
+            </NuxtLink>
+          </li>
+        </template>
       </ol>
-      <h2>Blog</h2>
+      <h2>{{ breadcrumbPath(path)[breadcrumbPath(path).length - 1].title }}</h2>
     </div>
   </section>
 </template>

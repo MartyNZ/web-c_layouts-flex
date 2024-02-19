@@ -49,6 +49,8 @@ const { data: settings } = useSanityQuery(query);
                 v-for="connection in settings.primaryLocation.socialConnections"
               >
                 <NuxtLink
+                  :to="`${connection.url}${connection.username}`"
+                  target="_blank"
                   :class="
                     connection._type === 'x-twitter'
                       ? 'twitter'
