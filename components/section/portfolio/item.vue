@@ -55,59 +55,62 @@ const onHide = () => {
 <template>
   <section id="portfolio-details" class="portfolio-details">
     <div class="container">
-      <div class="col-lg-8">
-        <ClientOnly>
-          <!-- :autoplay="6000" -->
-          <Carousel
-            class="gallery portfolio-details-slider swiper"
-            :wrap-around="true"
-            :items-to-show="1"
-            :pauseAutoplayOnHover="true"
-          >
-            <Slide
-              v-for="(img, idx) in imgs"
-              :key="idx"
-              class="pic swiper-slide"
-              @click="() => onShow(idx)"
-              style="450px"
+      <div class="row gy-4">
+        <div class="col-lg-8">
+          <ClientOnly>
+            <!--  -->
+            <Carousel
+              class="portfolio-details-slider swiper"
+              :wrap-around="true"
+              :autoplay="6000"
+              :items-to-show="1"
+              :pauseAutoplayOnHover="true"
             >
-              <SanityImage :asset-id="img" :alt="portfolioItem.title" />
-            </Slide>
-            <template #addons> <Pagination /></template>
-          </Carousel>
-        </ClientOnly>
-
-        <ClientOnly>
-          <VueEasyLightbox
-            :visible="visibleRef"
-            :index="indexRef"
-            :imgs="fullImageUrls"
-            @hide="onHide"
-            @on-prev="onPrev"
-            @on-next="onNext"
-          />
-        </ClientOnly>
-      </div>
-
-      <div class="col-lg-4">
-        <div class="portfolio-info">
-          <h3>Project information</h3>
-          <ul>
-            <li><strong>Category</strong>: {{ portfolioItem.category }}</li>
-            <li><strong>Client</strong>: {{ portfolioItem.client }}</li>
-            <li><strong>Project date</strong>: {{ portfolioItem.date }}</li>
-            <li>
-              <strong>Project URL</strong>:
-              <NuxtLink
-                :target="`${portfolioItem.projectUrl.newWindow} ? '_blank' : '_top'`"
-                :to="portfolioItem.projectUrl.url"
-                >{{ portfolioItem.projectUrl.title }}</NuxtLink
+              <Slide
+                v-for="(img, idx) in imgs"
+                :key="idx"
+                class=""
+                @click="() => onShow(idx)"
+                style="450px"
               >
-            </li>
-          </ul>
+                <SanityImage :asset-id="img" :alt="portfolioItem.title" />
+              </Slide>
+              <template #addons> <Pagination /></template>
+            </Carousel>
+          </ClientOnly>
+
+          <ClientOnly>
+            <VueEasyLightbox
+              :visible="visibleRef"
+              :index="indexRef"
+              :imgs="fullImageUrls"
+              @hide="onHide"
+              @on-prev="onPrev"
+              @on-next="onNext"
+            />
+          </ClientOnly>
         </div>
-        <div class="portfolio-description">
-          <SanityContent :blocks="portfolioItem.body" />
+
+        <div class="col-lg-4">
+          <div class="portfolio-info">
+            <h3>Project information</h3>
+            <ul>
+              <li><strong>Category</strong>: {{ portfolioItem.category }}</li>
+              <li><strong>Client</strong>: {{ portfolioItem.client }}</li>
+              <li><strong>Project date</strong>: {{ portfolioItem.date }}</li>
+              <li>
+                <strong>Project URL</strong>:
+                <NuxtLink
+                  :target="`${portfolioItem.projectUrl.newWindow} ? '_blank' : '_top'`"
+                  :to="portfolioItem.projectUrl.url"
+                  >{{ portfolioItem.projectUrl.title }}</NuxtLink
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="portfolio-description">
+            <SanityContent :blocks="portfolioItem.body" />
+          </div>
         </div>
       </div>
     </div>
@@ -116,14 +119,19 @@ const onHide = () => {
 <style scoped>
 .container {
   margin: 0 auto;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
+.portfolio-info,
+.portfolio-description {
+  text-align: justify;
+  text-wrap: balance;
+}
 
-.gallery {
+/* .gallery {
   max-width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -137,5 +145,5 @@ const onHide = () => {
   width: 8px;
   height: 8px;
   border-radius: 4px;
-}
+} */
 </style>

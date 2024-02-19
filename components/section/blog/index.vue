@@ -24,6 +24,10 @@ const { data: posts } = useSanityQuery(qryAllPosts);
 </script>
 <template>
   <section id="blog" class="blog">
+    <header class="section-header">
+      <h2>Our Blog</h2>
+      <p>Tips, Tricks & Titbits from our Team.</p>
+    </header>
     <div class="container" data-aos="fade-up">
       <div class="row">
         <div class="col-lg-8 entries">

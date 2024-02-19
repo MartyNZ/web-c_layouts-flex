@@ -18,6 +18,6 @@ const props = defineProps({
         }}</NuxtLink>
       </li>
     </template>
-    <li><a class="getstarted scrollto" href="#about">Get Started</a></li>
+    <li><a class="getstarted scrollto" href="/#contact">Get Started</a></li>
   </ul>
 </template>
