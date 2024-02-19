@@ -1,6 +1,4 @@
 <script setup>
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
 const qryPosts = groq`
   * [_type == 'blogPost'] | order(publishedDate)[0...5]{
     _id,
