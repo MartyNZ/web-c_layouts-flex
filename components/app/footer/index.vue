@@ -66,9 +66,9 @@ const { data: settings } = useSanityQuery(query);
             </div>
           </div>
 
-          <!-- <AppFooterUsefulLinks :navigation="usefulLinks" />
+          <AppFooterUsefulLinks />
 
-          <AppFooterServiceList :services="services" /> -->
+          <AppFooterServiceList />
 
           <div
             class="col-lg-3 col-md-12 footer-contact text-center text-md-start"

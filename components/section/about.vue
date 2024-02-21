@@ -28,15 +28,12 @@ const { data: about } = useSanityQuery(qryAbout);
             <SanityContent :blocks="about.body" />
             <div class="text-center text-lg-start">
               <a
-                href="#"
+                href="/#portfolio"
                 class="btn-read-more d-inline-flex align-items-center gap-2 justify-content-center align-self-center"
               >
-                <span class="pr-2">Read More</span>
+                <span class="pr-2">View Our Portfolio</span>
                 <ClientOnly>
-                  <FontAwesomeIcon
-                    class=""
-                    :icon="['fal', 'arrow-right']"
-                  ></FontAwesomeIcon>
+                  <FontAwesomeIcon icon="fal fa-arrow-right"></FontAwesomeIcon>
                 </ClientOnly>
               </a>
             </div>

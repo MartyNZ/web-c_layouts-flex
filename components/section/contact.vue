@@ -29,7 +29,7 @@ const query = groq`
 const { data: settings } = useSanityQuery(query);
 </script>
 <template>
-  <section id="contact" class="contact">
+  <section id="contact" class="contact mt-5">
     <div class="container" data-aos="fade-up">
       <header class="section-header">
         <h2>Contact</h2>
@@ -37,7 +37,7 @@ const { data: settings } = useSanityQuery(query);
       </header>
 
       <div class="row gy-4">
-        <div class="col-lg-6">
+        <div class="col-lg-6" v-if="settings">
           <div class="row gy-4">
             <div class="col-md-6">
               <div class="info-box">

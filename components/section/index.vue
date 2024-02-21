@@ -1,17 +1,12 @@
 <script setup>
-const route = useRoute();
-const qryHomepage = groq`
-  *[_type == 'homepage'][0]{
-    sections[]->{
-      _id,
-      'slug':slug.current
-    }
-  }
-`;
-const { data: page } = useSanityQuery(qryHomepage);
+const props = defineProps({
+  page: {
+    type: Object,
+    required: true,
+  },
+});
 </script>
 <template>
-  <SectionHero v-if="route.path === '/'" />
   <template v-for="section in page.sections" :key="section._id">
     <SectionAbout v-if="section.slug == 'about'" />
     <SectionValues v-if="section.slug == 'our-values'" />

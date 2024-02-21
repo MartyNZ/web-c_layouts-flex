@@ -1,4 +1,5 @@
 <script setup>
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import select from "../../../utils/select";
 const qryNavigation = groq`*[_type == "navigation" && _id == "mainNavigation"][0]{
   name,
@@ -92,7 +93,11 @@ onMounted(() => {
 
       <nav id="navbar" class="navbar">
         <AppHeaderMenu :navigation="mainNavigation" />
-        <i class="bi bi-list mobile-nav-toggle"></i>
+        <ClientOnly>
+          <div class="mobile-nav-toggle">
+            <FontAwesomeIcon icon="fal fa-bars"></FontAwesomeIcon>
+          </div>
+        </ClientOnly>
       </nav>
     </div>
   </header>
